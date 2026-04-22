@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apex Digital — Claude Workflow SOP v2.0</title>
+  <title>Apex Digital — Command Center v3.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0D0D12;
       --surface: #141418;
+      --surface-hi: #1b1b21;
       --border: #2a2a35;
       --amber: #C9A84C;
       --amber-dim: #9a7a34;
       --green: #22c55e;
       --red: #ef4444;
       --blue: #60a5fa;
-      --purple: #a78bfa;
       --text: #e8e4dd;
       --text-dim: #888;
       --mono: 'Space Mono', monospace;
@@ -56,7 +56,7 @@
       padding: 14px 40px;
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 24px;
       flex-wrap: wrap;
       position: sticky;
       top: 40px;
@@ -80,16 +80,17 @@
       transition: color 0.2s;
     }
     nav a:hover { color: var(--amber); }
+    nav a.sop-link { color: var(--amber); }
 
     /* Layout */
-    .container { max-width: 960px; margin: 0 auto; padding: 60px 32px; }
-    .section { margin-bottom: 72px; }
+    .container { max-width: 1040px; margin: 0 auto; padding: 44px 28px 80px; }
+    .section { margin-bottom: 64px; }
 
     /* Typography */
     h1 {
       font-family: var(--heading);
       font-weight: 900;
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       letter-spacing: -0.02em;
       line-height: 1.1;
       color: var(--text);
@@ -98,7 +99,7 @@
     h2 {
       font-family: var(--heading);
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--amber);
@@ -120,7 +121,7 @@
     .drama {
       font-family: var(--drama);
       font-style: italic;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: var(--amber);
       display: block;
       margin: 8px 0 20px;
@@ -149,243 +150,534 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 16px;
+      padding: 22px;
+      margin-bottom: 14px;
     }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+      gap: 14px;
+    }
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+    }
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
     }
 
-    /* Pipeline */
-    .pipeline {
-      display: flex;
-      gap: 0;
-      margin: 24px 0;
-      overflow-x: auto;
+    /* Session Start Module — hero */
+    .session-hero {
+      background: linear-gradient(180deg, rgba(201,168,76,0.06), rgba(201,168,76,0.0));
+      border: 1px solid var(--amber-dim);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 40px;
     }
-    .pipe-step {
-      flex: 1;
-      min-width: 140px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 18px 16px;
-      text-align: center;
-      position: relative;
-    }
-    .pipe-step:not(:last-child)::after {
-      content: '→';
-      position: absolute;
-      right: -14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--amber);
-      font-size: 18px;
-      z-index: 1;
-    }
-    .pipe-step:first-child { border-radius: 8px 0 0 8px; }
-    .pipe-step:last-child { border-radius: 0 8px 8px 0; }
-    .pipe-num {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--amber);
-      letter-spacing: 0.1em;
-      margin-bottom: 6px;
-    }
-    .pipe-label {
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.05em;
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--amber);
+      color: #000;
+      font-family: var(--heading);
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 4px;
+      padding: 16px 28px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px -8px rgba(201,168,76,0.4);
     }
-    .pipe-sub { font-size: 11px; color: var(--text-dim); }
-    .pipe-step.active { border-color: var(--amber); background: rgba(201,168,76,0.07); }
+    .start-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -8px rgba(201,168,76,0.55); }
+    .start-btn:active { transform: translateY(0); }
+    .start-btn .arrow { font-size: 16px; transition: transform 0.2s; }
+    .session-hero.open .start-btn .arrow { transform: rotate(90deg); }
 
-    /* Workflow straight line */
-    .workflow-line {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      margin: 24px 0;
-      overflow-x: auto;
+    #session-checklist {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, margin-top 0.3s ease;
+    }
+    .session-hero.open #session-checklist {
+      max-height: 3200px;
+      margin-top: 24px;
+    }
+
+    .step {
+      background: var(--surface-hi);
       border: 1px solid var(--border);
       border-radius: 10px;
-      overflow: hidden;
+      padding: 18px 18px 16px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: flex-start;
     }
-    .wf-step {
-      flex: 1;
-      min-width: 110px;
-      padding: 20px 14px;
-      border-right: 1px solid var(--border);
-      position: relative;
+    .step.done { border-color: var(--green); background: rgba(34,197,94,0.04); }
+    .step-check {
+      width: 26px;
+      height: 26px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      margin-top: 2px;
     }
-    .wf-step:last-child { border-right: none; }
-    .wf-tool {
+    .step-check:hover { border-color: var(--amber); }
+    .step.done .step-check { background: var(--green); border-color: var(--green); }
+    .step.done .step-check::after {
+      content: '✓';
+      color: #000;
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .step-body { min-width: 0; }
+    .step-num {
       font-family: var(--mono);
       font-size: 10px;
       color: var(--amber);
       letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .wf-label {
+    .step-title {
       font-weight: 700;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-size: 15px;
       color: var(--text);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .wf-tasks { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
-    .wf-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 4px;
-      color: var(--amber);
-      font-size: 16px;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      min-width: 28px;
-    }
-
-    /* Code blocks */
-    pre {
-      background: #0a0a0f;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      overflow-x: auto;
-      margin: 14px 0;
-    }
-    code {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--amber);
-    }
-    pre code { color: #a8d8a0; }
-    .cmd { color: #60a5fa; }
-    .comment { color: #555; }
-
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0;
-    }
-    th {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--amber);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 14px;
-      text-align: left;
-    }
-    td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
+    .step-desc {
       font-size: 13px;
       color: var(--text-dim);
-      vertical-align: top;
+      margin-bottom: 10px;
     }
-    td strong { color: var(--text); }
-    tr:last-child td { border-bottom: none; }
+    .step-desc a { color: var(--amber); }
+    .step.done .step-title { text-decoration: line-through; text-decoration-color: var(--text-dim); }
 
-    /* Status dots */
-    .dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
+    /* Sheet embed */
+    .sheet-wrap {
+      background: var(--surface-hi);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
     }
-    .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
-    .dot-amber { background: var(--amber); }
-    .dot-red { background: var(--red); }
-    .dot-blue { background: var(--blue); }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    .sheet-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 320px;
+      background: var(--bg);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
+    .sheet-frame-wrap iframe,
+    .sheet-placeholder {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .sheet-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+    .sheet-placeholder code {
+      display: block;
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--amber);
+    }
+    .sheet-url-input {
+      width: 100%;
+      margin-top: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .sheet-url-input:focus { outline: none; border-color: var(--amber); }
+
+    /* Time budget */
+    .budget-wrap {
+      background: var(--surface-hi);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+    @media (max-width: 520px) {
+      .budget-wrap { grid-template-columns: 1fr; }
+    }
+    .budget-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .budget-display {
+      font-family: var(--heading);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .budget-display .slash { color: var(--text-dim); font-weight: 400; }
+    .budget-display .cap { color: var(--text-dim); font-weight: 400; font-size: 18px; }
+    .budget-display.over { color: var(--red); }
+    .budget-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .budget-bar-fill {
+      height: 100%;
+      background: var(--amber);
+      transition: width 0.3s ease;
+      width: 0;
+    }
+    .budget-bar-fill.over { background: var(--red); }
+    .budget-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      width: 120px;
+    }
+    .budget-input:focus { outline: none; border-color: var(--amber); }
+    .budget-help { font-size: 11px; color: var(--text-dim); margin-top: 6px; font-family: var(--mono); }
+
+    /* Copy blocks */
+    .copy-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .copy-block-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--surface-hi);
+      border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+    .copy-block-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--amber); color: #000; border-color: var(--amber); }
+    .copy-btn.flash { background: var(--green); color: #000; border-color: var(--green); }
+    .copy-body {
+      padding: 16px 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.7;
+      color: #cfd8c8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .copy-body.flash { background: rgba(34,197,94,0.05); }
 
     /* Checklist */
-    .checklist { list-style: none; }
+    .checklist { list-style: none; padding: 0; }
     .checklist li {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      padding: 8px 0;
+      gap: 12px;
+      padding: 12px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-dim);
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
     }
     .checklist li:last-child { border-bottom: none; }
     .checklist .check {
-      width: 18px;
-      height: 18px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
       flex-shrink: 0;
-      margin-top: 2px;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
     }
-    .checklist li strong { color: var(--text); }
+    .checklist li:hover .check { border-color: var(--amber); }
+    .checklist li.checked .check { background: var(--amber); border-color: var(--amber); }
+    .checklist li.checked .check::after {
+      content: '✓';
+      color: #000;
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .checklist li.checked { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-dim); }
+    .checklist li .hint { color: var(--text-dim); font-size: 12px; margin-left: 4px; font-weight: 400; }
+    .checklist li.checked .hint { color: var(--text-dim); }
 
-    /* Preset grid */
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
+    /* Collapsibles */
+    details.collapsible {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
     }
-    .preset-card {
+    details.collapsible summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--heading);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      transition: background 0.15s;
+    }
+    details.collapsible summary::-webkit-details-marker { display: none; }
+    details.collapsible summary:hover { background: var(--surface-hi); }
+    details.collapsible summary::before {
+      content: '▸';
+      color: var(--amber);
+      font-size: 12px;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    details.collapsible[open] summary::before { transform: rotate(90deg); }
+    details.collapsible .body {
+      padding: 4px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
+    details.collapsible .summary-tag {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    /* Pitch phases */
+    .pitch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .pitch-phase {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pitch-phase::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--amber);
+    }
+    .pitch-phase .phase-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+    .pitch-phase .phase-time {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .pitch-phase h3 { font-size: 0.95rem; margin-bottom: 8px; }
+    .pitch-phase p { font-size: 13px; margin-bottom: 0; }
+
+    /* DNS cards */
+    .dns-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 18px;
     }
-    .preset-letter {
-      font-family: var(--mono);
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--amber);
-      margin-bottom: 4px;
+    .dns-card h3 { font-size: 13px; }
+    .dns-card ol { list-style: none; counter-reset: dns; padding: 0; margin-top: 10px; }
+    .dns-card ol li {
+      counter-increment: dns;
+      padding: 6px 0 6px 28px;
+      position: relative;
+      font-size: 13px;
+      color: var(--text-dim);
     }
-    .preset-name { font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
-    .preset-niche { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-bottom: 8px; }
-    .preset-identity { font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-bottom: 10px; }
-    .swatch-row { display: flex; gap: 6px; margin-bottom: 8px; }
-    .swatch { width: 20px; height: 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
-    .apex-rec {
-      display: inline-block;
+    .dns-card ol li::before {
+      content: counter(dns);
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--amber-dim);
+      border-radius: 50%;
       font-family: var(--mono);
       font-size: 10px;
-      background: rgba(201,168,76,0.15);
       color: var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Form URL input */
+    .form-url-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .form-url-group input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .form-url-group input:focus { outline: none; border-color: var(--amber); }
+    .form-url-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      background: rgba(201,168,76,0.12);
       border: 1px solid var(--amber-dim);
-      padding: 2px 8px;
-      border-radius: 4px;
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
     }
+    .form-url-link:hover { background: rgba(201,168,76,0.2); }
 
-    /* Gotcha */
-    .gotcha {
-      border-left: 3px solid var(--red);
-      background: rgba(239,68,68,0.06);
-      border-radius: 0 8px 8px 0;
-      padding: 16px 20px;
-      margin-bottom: 14px;
+    /* Inline mini nav chips for jumps */
+    .chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 4px;
     }
-    .gotcha-title { font-weight: 700; font-size: 13px; color: #fca5a5; margin-bottom: 6px; }
-    .gotcha-body { font-size: 12px; color: var(--text-dim); }
-    .gotcha-body code { color: var(--amber); font-size: 11px; }
+    .chip {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: var(--surface-hi);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      text-decoration: none;
+    }
+    .chip:hover { color: var(--amber); border-color: var(--amber-dim); }
 
-    /* Divider */
-    hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #101014;
+      border: 1px solid var(--amber-dim);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 1000;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast::before { content: '✓'; color: var(--green); margin-right: 8px; font-weight: 700; }
+
+    /* Code blocks (Apps Script) */
+    pre {
+      background: #0a0a0f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    pre code {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #a8d8a0;
+      line-height: 1.7;
+    }
 
     /* Footer */
     footer {
@@ -400,624 +692,811 @@
     }
     footer .brand { font-family: var(--mono); font-size: 12px; color: var(--amber); font-weight: 700; }
     footer .meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--amber); }
+
+    /* Mobile tweaks */
+    @media (max-width: 640px) {
+      nav { padding: 12px 20px; gap: 16px; }
+      .container { padding: 28px 18px 60px; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.1rem; }
+      .session-hero { padding: 20px; }
+      .start-btn { width: 100%; justify-content: center; padding: 14px 20px; font-size: 13px; }
+      .step { grid-template-columns: auto 1fr; }
+      .step > .copy-btn { grid-column: 1 / -1; justify-self: start; }
+      .card { padding: 18px; }
+    }
   </style>
 </head>
 <body>
 
 <!-- Sync Banner -->
 <div class="sync-banner">
-  APEX DIGITAL — CLAUDE WORKFLOW SOP v2.0 &nbsp;|&nbsp;
-  DEPLOY URL: <a href="https://apex-digital-sop.vercel.app/">apex-digital-sop.vercel.app</a> &nbsp;|&nbsp;
-  TRIGGER ANY INSTANCE: fetch this URL for full context
+  APEX DIGITAL — COMMAND CENTER v3.0 &nbsp;|&nbsp;
+  DAILY DRIVER: <a href="https://apex-digital-sop.vercel.app/">apex-digital-sop.vercel.app</a> &nbsp;|&nbsp;
+  REFERENCE SOP: <a href="/sop/">/sop/</a>
 </div>
 
 <!-- Sticky Nav -->
 <nav>
-  <span class="brand">Apex Digital SOP</span>
-  <a href="#owner">Owner</a>
-  <a href="#business">Business</a>
-  <a href="#workflow">Workflow</a>
-  <a href="#pipeline">Pipeline</a>
-  <a href="#build">Build Phases</a>
-  <a href="#gotchas">Gotchas</a>
-  <a href="#presets">Presets</a>
+  <span class="brand">Apex Command Center</span>
+  <a href="#today">Today</a>
+  <a href="#init">Init</a>
+  <a href="#source">Source</a>
   <a href="#outreach">Outreach</a>
-  <a href="#versioning">Versioning</a>
+  <a href="#build">Build</a>
+  <a href="#close">Close</a>
+  <a href="/sop/" class="sop-link">SOP →</a>
 </nav>
 
 <div class="container">
 
   <!-- Header -->
-  <div class="section" style="padding-top: 20px;">
-    <div class="version-tag">v2.0 — 2026-04-17</div>
-    <h1>Apex Digital<br /><span>Claude Workflow SOP</span></h1>
-    <span class="drama">The complete operating manual for every Claude instance.</span>
-    <p>This document is the single source of truth for how Apex Digital uses Claude Code, Claude Chat, Claude Cowork, and Gemini to build and sell web properties. Every Claude instance should fetch this URL at the start of any Apex Digital session to load full context.</p>
-    <p><strong>Usage:</strong> Share this URL with Claude Chat, Claude Code, or Claude Cowork at the start of any session. The instance reads this file and knows exactly where it fits in the pipeline.</p>
+  <div class="section" style="padding-top: 12px; margin-bottom: 32px;">
+    <div class="version-tag">v3.0 — 2026-04-21</div>
+    <h1>Apex Digital<br /><span>Command Center</span></h1>
+    <span class="drama">Open this page first, every session.</span>
+    <p>The daily driver for running Apex Digital on 2–5 hours/week. Session checklist, prompt copy-paste, time budget, and the full outreach playbook. Reference SOP lives at <a href="/sop/" style="color:var(--amber)">/sop/</a>.</p>
   </div>
 
-  <!-- Owner Context -->
-  <div class="section" id="owner">
-    <h2>01 — Owner Context</h2>
-    <div class="card-grid">
-      <div class="card">
-        <div class="label">Who</div>
-        <h3>David Perez</h3>
-        <p>Founder & sole operator of Apex Digital. Runs the agency as a side business alongside a full-time job at PepsiCo.</p>
-      </div>
-      <div class="card">
-        <div class="label">Time Budget</div>
-        <h3>2–5 hrs/week</h3>
-        <p>Every workflow decision must maximize output per hour. Automation and AI delegation are not optional — they are how this works at all.</p>
-      </div>
-      <div class="card">
-        <div class="label">Revenue Filter</div>
-        <h3>$800–$1,500 / client</h3>
-        <p>Target: local service businesses ready to pay for a professional web presence. No time for tire-kickers or under-budget prospects.</p>
+  <!-- ========== SECTION 1: Today's Session ========== -->
+  <div class="section" id="today">
+    <div class="session-hero" id="session-hero">
+      <div class="label">Session Start Module</div>
+      <h3 style="font-size:1.1rem; margin-bottom:6px; color:var(--text); text-transform:none; letter-spacing:0;">Today's Session</h3>
+      <p style="margin-bottom:18px;">Three steps. 30–60 minutes. Hit all three and you've moved the needle this week.</p>
+      <button class="start-btn" id="start-btn" type="button">
+        <span class="btn-label">Start Today's Session</span>
+        <span class="arrow">▸</span>
+      </button>
+
+      <div id="session-checklist">
+        <!-- Step 1 -->
+        <div class="step" data-step="0">
+          <div class="step-check" role="checkbox" aria-checked="false" tabindex="0"></div>
+          <div class="step-body">
+            <div class="step-num">STEP 01</div>
+            <div class="step-title">Send 10–15 DMs</div>
+            <div class="step-desc">Send to qualified leads with 20+ reviews + a broken mobile site. Use the DM script generator below — <a href="#dm-script">jump to prompt</a>.</div>
+          </div>
+          <button class="copy-btn" data-copy-id="dm-script-prompt">Copy DM prompt</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step" data-step="1">
+          <div class="step-check" role="checkbox" aria-checked="false" tabindex="0"></div>
+          <div class="step-body">
+            <div class="step-num">STEP 02</div>
+            <div class="step-title">Respond to replies</div>
+            <div class="step-desc">Handle positive responses, objections, and tire-kickers. See <a href="#objections">objection handlers</a>.</div>
+          </div>
+          <button class="copy-btn" data-copy-id="objections-block">Copy objection handlers</button>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step" data-step="2">
+          <div class="step-check" role="checkbox" aria-checked="false" tabindex="0"></div>
+          <div class="step-body">
+            <div class="step-num">STEP 03</div>
+            <div class="step-title">Customize mockups for positive replies</div>
+            <div class="step-desc">Run the 10-minute customization sequence for anyone who wants the link. Command is below.</div>
+          </div>
+          <button class="copy-btn" data-copy-id="customize-cmd">Copy /web-mockup</button>
+        </div>
+
+        <!-- Google Sheet embed -->
+        <div class="sheet-wrap">
+          <div class="label" style="margin-bottom:10px;">Apex Deal Tracker</div>
+          <div class="sheet-frame-wrap" id="sheet-frame-wrap">
+            <!-- Iframe injected by JS when URL is set -->
+            <div class="sheet-placeholder" id="sheet-placeholder">
+              <div style="font-weight:700; color:var(--text); margin-bottom:8px;">Embed your Google Sheet</div>
+              <div>Paste the Sheet embed URL below. Find it via <strong>File → Share → Publish to web → Embed</strong>.</div>
+              <code>https://docs.google.com/spreadsheets/d/.../pubhtml?widget=true&amp;headers=false</code>
+              <input type="url" class="sheet-url-input" id="sheet-url-input" placeholder="Paste Sheet embed URL and press Enter" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly time budget -->
+        <div class="budget-wrap">
+          <div>
+            <div class="budget-title">Hours logged this week</div>
+            <div class="budget-display" id="budget-display">
+              <span id="budget-current">0.0</span><span class="slash"> / </span><span class="cap">5.0 hrs</span>
+            </div>
+            <div class="budget-bar"><div class="budget-bar-fill" id="budget-bar"></div></div>
+            <div class="budget-help" id="budget-week">Week of <span id="budget-week-label">—</span> · resets Monday</div>
+          </div>
+          <div>
+            <div class="label" style="margin-bottom:6px;">Set hours</div>
+            <input type="number" step="0.1" min="0" max="99" class="budget-input" id="budget-input" placeholder="0.0" />
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- ========== SECTION 2: Daily Initialization ========== -->
+  <div class="section" id="init">
+    <h2>Daily Initialization</h2>
+    <p>Paste these at the start of every session. Each instance confirms role before you start the run.</p>
+
+    <div class="card-grid-2">
+      <!-- Gemini Init -->
+      <div class="copy-block">
+        <div class="copy-block-head">
+          <span class="copy-block-title">Gemini Advanced · Orchestrator</span>
+          <button class="copy-btn" data-copy-target="#copy-gemini-init">Copy</button>
+        </div>
+        <div class="copy-body" id="copy-gemini-init">"I am David Perez. Initialize the Apex Digital SOP. You are my Orchestrator and Data Processor. We have a 2-5 hr/week constraint, targeting $1,200 local service web builds. Your role is ZIP-code extraction, JSON/CSV data refinement, qualification filtering (Reviews ≥ 20), generating IG search operators, and tracking dead leads for 30-day recycling. Do you acknowledge your role? Reply ONLY with: 'GEMINI ALIGNMENT CONFIRMED. AWAITING TARGET CITY FOR ZIP EXTRACTION.'"</div>
+      </div>
+
+      <!-- Claude Chat Init -->
+      <div class="copy-block">
+        <div class="copy-block-head">
+          <span class="copy-block-title">Claude Chat · Strategy & Copy</span>
+          <button class="copy-btn" data-copy-target="#copy-claude-init">Copy</button>
+        </div>
+        <div class="copy-body" id="copy-claude-init">"I am David Perez. Initialize the Apex Digital SOP. You are my Strategy and Copy Lead. We have a 2-5 hr/week constraint, targeting $1,200 local service web builds. Your role is generating authentic, hook-driven IG direct messaging scripts based on specific website flaws, referencing our pre-built niche templates, and providing objection handling. Do you acknowledge your role? Reply ONLY with: 'CLAUDE ALIGNMENT CONFIRMED. AWAITING QUALIFIED LEAD DATA FOR OUTREACH COPY.'"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SECTION 3: Stages 1-2 Lead Sourcing & Qualification ========== -->
+  <div class="section" id="source">
+    <h2>Stages 1–2 · Lead Sourcing & Qualification</h2>
+    <p>ZIP-by-ZIP coverage. Filter to 20+ reviews. Only pitch businesses with a specific, visible flaw.</p>
+
+    <!-- Prompt 1: ZIP extraction -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Prompt · ZIP code extraction (Gemini)</span>
+        <button class="copy-btn" data-copy-target="#copy-zip">Copy</button>
+      </div>
+      <div class="copy-body" id="copy-zip">"Generate a comprehensive, line-by-line list of every single ZIP code located within [Insert City]. The output must contain only the numerical ZIP codes, formatted with one code per line. Do not include any conversational text, formatting elements, or preamble."</div>
+    </div>
+
+    <!-- Prompt 2: CSV filter -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Prompt · CSV filter (Reviews ≥ 20)</span>
+        <button class="copy-btn" data-copy-target="#copy-csv">Copy</button>
+      </div>
+      <div class="copy-body" id="copy-csv">"Analyze the provided raw local business dataset. Apply the following strict filtration parameter: eliminate any business entity possessing fewer than 20 total reviews. Format the remaining businesses into a structured JSON array containing: Business Name, Phone Number, and Website URL. Output only the raw JSON array."</div>
+    </div>
+
+    <!-- Prompt 3: IG handle sourcing -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Prompt · IG handle sourcing (Gemini)</span>
+        <button class="copy-btn" data-copy-target="#copy-ig">Copy</button>
+      </div>
+      <div class="copy-body" id="copy-ig">"Take the following list of qualified local businesses. For each business, write a Google search operator to find their Instagram profile. Use this exact format for each: "" "[City]" -inurl:/p/ -inurl:/reel site:instagram.com. Output the list of search operators."</div>
+    </div>
+
+    <!-- Qualification Matrix -->
     <div class="card" style="margin-top: 16px;">
-      <div class="label">Communication Style</div>
-      <p><strong>Concise and direct.</strong> No filler words, no restating what was already said, no emojis unless asked. No "Great question!" or "Certainly!" Get to the point. Confirm understanding with one sentence, then act.</p>
-      <p><strong>No auto-commits.</strong> Never commit code unless explicitly asked. No destructive operations without confirmation. Always plan before building non-trivial features.</p>
+      <div class="label">Qualification Matrix · Max 60 seconds per lead</div>
+      <h3>A lead qualifies if it meets the baseline <em>and</em> any flaw</h3>
+      <ul class="checklist" id="qual-checklist">
+        <li data-qual="0">
+          <div class="check"></div>
+          <div><strong>20+ total reviews</strong> <span class="hint">— baseline: proves cash flow and demand</span></div>
+        </li>
+        <li data-qual="1">
+          <div class="check"></div>
+          <div><strong>Missing or broken website</strong> <span class="hint">— automatic qualification</span></div>
+        </li>
+        <li data-qual="2">
+          <div class="check"></div>
+          <div><strong>Poor mobile optimization</strong> <span class="hint">— requires manual scaling/pinching</span></div>
+        </li>
+        <li data-qual="3">
+          <div class="check"></div>
+          <div><strong>Missing "Call Now" CTA</strong> <span class="hint">— complex forms or hidden numbers</span></div>
+        </li>
+      </ul>
+      <p style="margin-top:12px; font-size:12px;">Baseline required. Any one flaw advances the lead to outreach.</p>
     </div>
   </div>
 
-  <!-- Business Context -->
-  <div class="section" id="business">
-    <h2>02 — Business Context</h2>
-    <div class="card">
-      <div class="label">What Apex Digital Sells</div>
-      <h3>Cinematic landing page mockups → retainer web clients</h3>
-      <p>The pitch: build a stunning, personalized mockup for a local business <em>before</em> charging them anything. Show up to the meeting with a live URL. Close on a $800–$1,500 build fee + optional monthly retainer.</p>
-    </div>
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Target Niches</div>
-      <table>
-        <thead><tr><th>Niche</th><th>Typical Budget</th><th>Preset Rec.</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Landscaping</strong></td><td>$1,000–$1,500</td><td>L (Green Earth)</td></tr>
-          <tr><td><strong>Auto Repair</strong></td><td>$800–$1,200</td><td>K (Trades Pro)</td></tr>
-          <tr><td><strong>Hair Salon / Barber</strong></td><td>$800–$1,200</td><td>H / M</td></tr>
-          <tr><td><strong>Cleaning Services</strong></td><td>$800–$1,000</td><td>K (Trades Pro)</td></tr>
-          <tr><td><strong>HVAC / Plumbing</strong></td><td>$900–$1,400</td><td>K (Trades Pro)</td></tr>
-          <tr><td><strong>Restaurant / Food</strong></td><td>$1,000–$1,500</td><td>E (Warm Table)</td></tr>
-          <tr><td><strong>Pressure Washing</strong></td><td>$700–$1,000</td><td>K (Trades Pro)</td></tr>
-          <tr><td><strong>Pet Grooming</strong></td><td>$800–$1,000</td><td>N (Paws & Play)</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Folder Structure — Desktop Hub</div>
-      <p>The Desktop is the primary hub. Google Drive is archive/backup only.</p>
-      <pre><code>C:\Users\DavidsPc\Desktop\Apex Digital\
-├── Claude Workflow SOP.html        ← this file
-├── Client Projects\
-│   ├── 01 - Mockups\               ← in-progress builds
-│   ├── 02 - Pitched\               ← shown to client, pending
-│   ├── 03 - Active\                ← paid, in development
-│   └── 04 - Live\                  ← shipped and deployed
-└── Templates\                      ← reusable assets</code></pre>
-    </div>
-  </div>
-
-  <!-- Workflow -->
-  <div class="section" id="workflow">
-    <h2>03 — The Straight-Line Workflow</h2>
-    <p>Every client engagement follows this exact sequence. No instance does another's job. This is how Apex Digital runs at scale on 2–5 hrs/week.</p>
-
-    <div class="workflow-line">
-      <div class="wf-step">
-        <div class="wf-tool">Gemini Pro</div>
-        <div class="wf-label">Research</div>
-        <div class="wf-tasks">Prospect scraping<br/>Data gathering<br/>Competitor URLs<br/>Business info lookup</div>
-      </div>
-      <div class="wf-arrow">→</div>
-      <div class="wf-step">
-        <div class="wf-tool">Claude Chat</div>
-        <div class="wf-label">Strategy</div>
-        <div class="wf-tasks">Pitch angle<br/>Copy direction<br/>Section plan<br/>Approval gate</div>
-      </div>
-      <div class="wf-arrow">→</div>
-      <div class="wf-step" style="border-color: var(--amber); background: rgba(201,168,76,0.06);">
-        <div class="wf-tool" style="color: var(--green);">Claude Code</div>
-        <div class="wf-label">Build</div>
-        <div class="wf-tasks"><code style="font-size:10px;">/web-mockup</code><br/>Full React build<br/>GSAP animations<br/>Vercel deploy</div>
-      </div>
-      <div class="wf-arrow">→</div>
-      <div class="wf-step">
-        <div class="wf-tool">Claude Cowork</div>
-        <div class="wf-label">Polish</div>
-        <div class="wf-tasks">PDF proposals<br/>Brand assets<br/>Pitch decks<br/>Print-ready docs</div>
-      </div>
-      <div class="wf-arrow">→</div>
-      <div class="wf-step">
-        <div class="wf-tool">David</div>
-        <div class="wf-label">Deliver</div>
-        <div class="wf-tasks">Send live URL<br/>Run pitch meeting<br/>Handle objections<br/>Collect payment</div>
-      </div>
-      <div class="wf-arrow">→</div>
-      <div class="wf-step">
-        <div class="wf-tool">Claude Chat</div>
-        <div class="wf-label">Close</div>
-        <div class="wf-tasks">Follow-up copy<br/>Upsell prompts<br/>Retainer pitch<br/>Onboarding</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="label">Division of Labor — Corrected</div>
-      <table>
-        <thead><tr><th>Instance</th><th>Does</th><th>Does NOT do</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>Gemini Pro</strong></td>
-            <td>Scraping, data lookups, competitor research, bulk processing</td>
-            <td>Building sites, writing pitch copy</td>
-          </tr>
-          <tr>
-            <td><strong>Claude Chat</strong></td>
-            <td>Strategy, copy direction, email/pitch drafts, closing scripts</td>
-            <td>Running <code>/web-mockup</code> — that is Claude Code only</td>
-          </tr>
-          <tr>
-            <td><strong>Claude Code</strong></td>
-            <td>Full mockup builds via <code>/web-mockup</code>, file writes, Vercel deploy, shell commands</td>
-            <td>Outreach copy, client communication</td>
-          </tr>
-          <tr>
-            <td><strong>Claude Cowork</strong></td>
-            <td>PDF proposals, branded docs, pitch decks, visual assets</td>
-            <td>Code, strategy, outreach</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="margin-top: 12px; font-size: 12px; color: var(--red);">⚠ IMPORTANT: Claude Chat does NOT run <code>/web-mockup</code> and does NOT know the skill name <code>/web-artifacts-builder</code> — that suggestion was incorrect. The only trigger is <code>/web-mockup</code> in Claude Code.</p>
-    </div>
-
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Gemini Integration</div>
-      <h3>When to use Gemini Pro instead of Claude</h3>
-      <p><strong>Use Gemini for:</strong> Large-scale scraping tasks, processing many URLs at once, Google Workspace API calls (Sheets, Drive, Gmail), data normalization at volume, tasks where cost at scale matters.</p>
-      <p><strong>Use Claude for:</strong> Everything else — strategy, copy, builds, reasoning, nuance.</p>
-      <p><strong>Handoff:</strong> Gemini outputs a structured data file (JSON/CSV). Claude Chat or Code reads it and continues the pipeline.</p>
-    </div>
-  </div>
-
-  <!-- Pipeline -->
-  <div class="section" id="pipeline">
-    <h2>04 — Four-Stage Client Pipeline</h2>
-    <p>Every prospect moves linearly through these stages. Exit criteria must be met to advance. No skipping.</p>
-
-    <div class="pipeline">
-      <div class="pipe-step">
-        <div class="pipe-num">STAGE 01</div>
-        <div class="pipe-label">Mockups</div>
-        <div class="pipe-sub">Build in progress</div>
-      </div>
-      <div class="pipe-step active">
-        <div class="pipe-num">STAGE 02</div>
-        <div class="pipe-label">Pitched</div>
-        <div class="pipe-sub">Live URL sent to prospect</div>
-      </div>
-      <div class="pipe-step">
-        <div class="pipe-num">STAGE 03</div>
-        <div class="pipe-label">Active</div>
-        <div class="pipe-sub">Paid, in development</div>
-      </div>
-      <div class="pipe-step">
-        <div class="pipe-num">STAGE 04</div>
-        <div class="pipe-label">Live</div>
-        <div class="pipe-sub">Shipped & deployed</div>
-      </div>
-    </div>
-
-    <div class="card-grid">
-      <div class="card">
-        <div class="label">01 → 02 Exit Criteria</div>
-        <ul class="checklist">
-          <li><span class="check"></span>Mockup builds without errors (<code>npm run dev</code> clean)</li>
-          <li><span class="check"></span>All 8 sections render correctly in browser</li>
-          <li><span class="check"></span>Mobile layout verified at 375px</li>
-          <li><span class="check"></span>GSAP animations trigger on scroll</li>
-          <li><span class="check"></span>Deployed to Vercel — live URL in hand</li>
-          <li><span class="check"></span>Pitch message drafted in Claude Chat</li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="label">02 → 03 Exit Criteria</div>
-        <ul class="checklist">
-          <li><span class="check"></span>Prospect responded positively to mockup</li>
-          <li><span class="check"></span>Budget conversation had ($800–$1,500)</li>
-          <li><span class="check"></span>Proposal/invoice sent</li>
-          <li><span class="check"></span>Deposit received (50% upfront)</li>
-          <li><span class="check"></span>Project folder moved to <code>03 - Active\</code></li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="label">03 → 04 Exit Criteria</div>
-        <ul class="checklist">
-          <li><span class="check"></span>All client revisions implemented</li>
-          <li><span class="check"></span>Custom domain pointed + SSL active</li>
-          <li><span class="check"></span>Analytics installed (GA4 or similar)</li>
-          <li><span class="check"></span>Final payment collected</li>
-          <li><span class="check"></span>Retainer pitch made</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Build Phases -->
-  <div class="section" id="build">
-    <h2>05 — Build Phases (Claude Code)</h2>
-    <p>Run <code>/web-mockup</code> in Claude Code to start. The skill handles phases 1–2. Phase 3–5 is where builds commonly break — follow exactly.</p>
-
-    <div class="card">
-      <h3>Phase 1 — Information Gathering</h3>
-      <p>Claude Code asks for: business name, description, niche, aesthetic preset, primary CTA, output folder. <strong>Always scaffold in <code>C:\temp\[slug]</code> first — never directly in Google Drive or paths with apostrophes.</strong></p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 2 — Plan Approval</h3>
-      <p>Claude Code presents the full plan (sections, copy direction, design system, file structure). David approves before any code is written. This is non-negotiable.</p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 3 — Scaffolding</h3>
-      <pre><code><span class="comment"># 1. Create temp build folder</span>
-<span class="cmd">mkdir -p /c/temp/[slug]</span>
-<span class="cmd">cd /c/temp/[slug]</span>
-
-<span class="comment"># 2. Scaffold Vite React project</span>
-<span class="cmd">npm create vite@latest . -- --template react</span>
-
-<span class="comment"># 3. Install Tailwind CSS v3 (NOT v4)</span>
-<span class="cmd">npm install -D tailwindcss@3 postcss autoprefixer</span>
-<span class="cmd">npx tailwindcss init -p</span>
-
-<span class="comment"># 4. Install runtime deps</span>
-<span class="cmd">npm install gsap lucide-react</span>
-
-<span class="comment"># 5. Install all deps</span>
-<span class="cmd">npm install</span></code></pre>
-    </div>
-
-    <div class="card">
-      <h3>Phase 4 — File Writes</h3>
-      <p>Write in this order: <code>postcss.config.cjs</code> → <code>tailwind.config.js</code> → <code>index.html</code> → <code>src/index.css</code> → <code>src/main.jsx</code> → <code>src/App.jsx</code> → all components.</p>
-      <p><strong>Always use <code>postcss.config.cjs</code> with <code>module.exports</code></strong> — never <code>export default</code>, even with <code>"type": "module"</code> in package.json.</p>
-      <p><strong>All <code>.btn-*</code> and <code>.card</code> classes must be inside <code>@layer components {}</code></strong> in index.css — otherwise <code>inline-flex</code> overrides Tailwind's <code>hidden</code> utility on mobile.</p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 5 — Verification</h3>
-      <pre><code><span class="comment"># Kill any running node processes first</span>
-<span class="cmd">powershell -Command "Stop-Process -Name 'node' -Force"</span>
-
-<span class="comment"># Start dev server</span>
-<span class="cmd">cd /c/temp/[slug] && npm run dev</span>
-
-<span class="comment"># Preview via Preview MCP</span>
-<span class="comment"># launch.json goes in Desktop/.claude/ — NOT the project folder</span>
-<span class="comment"># Use preview_screenshot to verify all sections</span>
-<span class="comment"># Scroll to bottom — GSAP hides elements at opacity:0 until scroll</span>
-<span class="comment"># Use preview_eval to force ScrollTrigger refresh if needed</span></code></pre>
-      <p><strong>After visual verification:</strong> copy build to Desktop hub via PowerShell, then deploy to Vercel.</p>
-      <pre><code><span class="comment"># Copy to Desktop hub (PowerShell handles apostrophe in path)</span>
-<span class="cmd">powershell -Command "Copy-Item -Path 'C:\temp\[slug]' -Destination 'C:\Users\DavidsPc\Desktop\Apex Digital\Client Projects\01 - Mockups\[Business Name] - Mock Up' -Recurse -Force"</span></code></pre>
-    </div>
-  </div>
-
-  <!-- Gotchas -->
-  <div class="section" id="gotchas">
-    <h2>06 — Known Gotchas</h2>
-    <p>Every item below has burned at least one build. Never skip reading this section.</p>
-
-    <div class="gotcha">
-      <div class="gotcha-title">1. Apostrophes in paths break bash</div>
-      <div class="gotcha-body">Paths like <code>Daniel's Master Landscaping - Mock Up</code> cause <code>TAR_ENTRY_ERROR</code> during npm install when the project is inside Google Drive. <strong>Always scaffold in <code>C:\temp\[slug]</code> first. Copy to final destination with PowerShell after the build is complete.</strong></div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">2. postcss.config.cjs must use module.exports</div>
-      <div class="gotcha-body">Even with <code>"type": "module"</code> in package.json, PostCSS config must be CommonJS: <code>module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } }</code>. Using <code>export default</code> throws <code>SyntaxError: Unexpected token 'export'</code>.</div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">3. @layer components required for all custom classes</div>
-      <div class="gotcha-body">Any class using <code>@apply inline-flex</code> (like <code>.btn-primary</code>) must be inside <code>@layer components {}</code>. Otherwise Tailwind's <code>hidden</code> and <code>md:block</code> utilities cannot override it, causing the mobile CTA button to bleed through the navbar.</div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">4. GSAP ScrollTrigger hides elements at opacity:0 until scroll</div>
-      <div class="gotcha-body">When verifying with Preview MCP screenshots, elements animated by ScrollTrigger appear invisible at the page bottom because scroll hasn't triggered them. Use <code>preview_eval</code> to call <code>ScrollTrigger.refresh()</code> or scroll the preview before screenshotting the lower sections.</div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">5. Unsplash photo IDs — always visually verify</div>
-      <div class="gotcha-body">Photo ID descriptions in training data are wrong or out of date. A photo listed as "lush garden" may actually show a dining room, a person, or red poppies. <strong>Always take a screenshot of the gallery section and visually confirm every image.</strong> Replace any wrong ones before declaring done.</div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">6. Preview MCP launch.json location</div>
-      <div class="gotcha-body">The <code>launch.json</code> file must live at <code>C:\Users\DavidsPc\Desktop\.claude\launch.json</code> (the session working directory), NOT in the project folder. Kill lingering node processes with <code>powershell -Command "Stop-Process -Name 'node' -Force"</code> before starting.</div>
-    </div>
-
-    <div class="gotcha">
-      <div class="gotcha-title">7. Tailwind CSS version — always v3</div>
-      <div class="gotcha-body">Install with <code>npm install -D tailwindcss@3 postcss autoprefixer</code>. Tailwind v4 has breaking API changes and is not compatible with this stack. Never upgrade without explicit instruction.</div>
-    </div>
-  </div>
-
-  <!-- Presets A–N -->
-  <div class="section" id="presets">
-    <h2>07 — Aesthetic Presets A–N</h2>
-    <p>Choose the preset that matches the client's niche and desired brand feeling. Hybrid combinations (e.g., L base + F typography) are valid — document the decision in the plan.</p>
-
-    <div class="preset-grid">
-
-      <div class="preset-card">
-        <div class="preset-letter">A</div>
-        <div class="preset-name">Organic Tech</div>
-        <div class="preset-niche">Health / Biotech / Clinical Boutique</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#2E4036;" title="Moss"></div>
-          <div class="swatch" style="background:#CC5833;" title="Clay"></div>
-          <div class="swatch" style="background:#F2F0E9;" title="Cream"></div>
-          <div class="swatch" style="background:#1A1A1A;" title="Charcoal"></div>
-        </div>
-        <div class="preset-identity">A biological research lab meets an avant-garde luxury magazine.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">B</div>
-        <div class="preset-name">Midnight Luxe</div>
-        <div class="preset-niche">Luxury / Premium / Dark Editorial</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#0D0D12;" title="Obsidian"></div>
-          <div class="swatch" style="background:#C9A84C;" title="Champagne"></div>
-          <div class="swatch" style="background:#FAF8F5;" title="Ivory"></div>
-          <div class="swatch" style="background:#2A2A35;" title="Slate"></div>
-        </div>
-        <div class="preset-identity">A private members' club meets a high-end watchmaker's atelier.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">C</div>
-        <div class="preset-name">Brutalist Signal</div>
-        <div class="preset-niche">Agency / Bold / Raw Precision</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#E8E4DD;" title="Paper"></div>
-          <div class="swatch" style="background:#E63B2E;" title="Signal Red"></div>
-          <div class="swatch" style="background:#F5F3EE;" title="Off-white"></div>
-          <div class="swatch" style="background:#111111;" title="Black"></div>
-        </div>
-        <div class="preset-identity">A control room for the future — no decoration, pure information density.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">D</div>
-        <div class="preset-name">Vapor Clinic</div>
-        <div class="preset-niche">Tech Startup / Neon / SaaS</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#0A0A14;" title="Deep Void"></div>
-          <div class="swatch" style="background:#7B61FF;" title="Plasma"></div>
-          <div class="swatch" style="background:#F0EFF4;" title="Ghost"></div>
-          <div class="swatch" style="background:#18181B;" title="Graphite"></div>
-        </div>
-        <div class="preset-identity">A genome sequencing lab inside a Tokyo nightclub.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">E</div>
-        <div class="preset-name">Warm Table</div>
-        <div class="preset-niche">Restaurant / Food / Hospitality</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#C4622D;" title="Terracotta"></div>
-          <div class="swatch" style="background:#2C4A2E;" title="Forest"></div>
-          <div class="swatch" style="background:#F5ECD7;" title="Linen"></div>
-          <div class="swatch" style="background:#1A0F08;" title="Espresso"></div>
-        </div>
-        <div class="preset-identity">A neighborhood bistro elevated to Michelin-level presentation.</div>
-        <span class="apex-rec">Apex: Restaurant, Food</span>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">F</div>
-        <div class="preset-name">Steel & Glass</div>
-        <div class="preset-niche">Real Estate / Architecture / Construction</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#2C3444;" title="Slate"></div>
-          <div class="swatch" style="background:#B87333;" title="Copper"></div>
-          <div class="swatch" style="background:#F7F5F2;" title="Chalk"></div>
-          <div class="swatch" style="background:#1A1A1A;" title="Onyx"></div>
-        </div>
-        <div class="preset-identity">A luxury real estate magazine meets a modernist architecture firm.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">G</div>
-        <div class="preset-name">Bold Athletic</div>
-        <div class="preset-niche">Gym / Fitness / Sports</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#0A0A0A;" title="Onyx"></div>
-          <div class="swatch" style="background:#CAFF00;" title="Volt"></div>
-          <div class="swatch" style="background:#EBEBEB;" title="Concrete"></div>
-          <div class="swatch" style="background:#C41E3A;" title="Crimson"></div>
-        </div>
-        <div class="preset-identity">Nike campaign meets a high-performance training lab.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">H</div>
-        <div class="preset-name">Soft Luxe</div>
-        <div class="preset-niche">Hair Salon / Beauty / Spa / Wellness</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#E8C4B8;" title="Blush"></div>
-          <div class="swatch" style="background:#7D9E7D;" title="Sage"></div>
-          <div class="swatch" style="background:#FAF6F0;" title="Parchment"></div>
-          <div class="swatch" style="background:#3D2535;" title="Plum"></div>
-        </div>
-        <div class="preset-identity">A Parisian skincare boutique meets a Tokyo concept store.</div>
-        <span class="apex-rec">Apex: Hair Salon, Spa</span>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">I</div>
-        <div class="preset-name">Authority</div>
-        <div class="preset-niche">Law / Finance / Consulting / Medical</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#1B2D4F;" title="Navy"></div>
-          <div class="swatch" style="background:#C5A028;" title="Gold"></div>
-          <div class="swatch" style="background:#F9F8F5;" title="Alabaster"></div>
-          <div class="swatch" style="background:#2E2E2E;" title="Graphite"></div>
-        </div>
-        <div class="preset-identity">Goldman Sachs report meets Apple keynote — trust-first, no fluff.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">J</div>
-        <div class="preset-name">Commerce Edge</div>
-        <div class="preset-niche">E-commerce / Retail / Product</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#0A0A0A;" title="Jet Black"></div>
-          <div class="swatch" style="background:#0057FF;" title="Signal Blue"></div>
-          <div class="swatch" style="background:#F8F8F5;" title="Off-White"></div>
-          <div class="swatch" style="background:#888888;" title="Mid-Grey"></div>
-        </div>
-        <div class="preset-identity">Supreme x Aesop — street-culture product drops meet luxury retail.</div>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">K</div>
-        <div class="preset-name">Trades Pro</div>
-        <div class="preset-niche">Auto Repair / Plumbing / HVAC / Cleaning / Pressure Washing</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#1B3A6B;" title="Cobalt"></div>
-          <div class="swatch" style="background:#E8670A;" title="Orange"></div>
-          <div class="swatch" style="background:#F8F8F8;" title="White"></div>
-          <div class="swatch" style="background:#1E1E1E;" title="Dark Grey"></div>
-        </div>
-        <div class="preset-identity">Family-owned trust meets premium service brand.</div>
-        <span class="apex-rec">Apex: Auto, HVAC, Plumbing, Cleaning</span>
-      </div>
-
-      <div class="preset-card" style="border-color: var(--amber);">
-        <div class="preset-letter">L</div>
-        <div class="preset-name">Green Earth</div>
-        <div class="preset-niche">Landscaping / Outdoor Services</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#2D5016;" title="Forest"></div>
-          <div class="swatch" style="background:#E8912A;" title="Sunrise Orange"></div>
-          <div class="swatch" style="background:#F6F3EC;" title="Cream"></div>
-          <div class="swatch" style="background:#3D2B1A;" title="Soil"></div>
-        </div>
-        <div class="preset-identity">Outdoor design studio — as intentional as any interior designer, as natural as the earth.</div>
-        <span class="apex-rec">Apex: Landscaping ← primary target</span>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">M</div>
-        <div class="preset-name">Urban Sharp</div>
-        <div class="preset-niche">Barber Shops</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#111111;" title="Jet"></div>
-          <div class="swatch" style="background:#CC2936;" title="Crimson"></div>
-          <div class="swatch" style="background:#F5F0E8;" title="Cream"></div>
-          <div class="swatch" style="background:#888888;" title="Steel"></div>
-        </div>
-        <div class="preset-identity">Master barber's atelier — precision meets street culture.</div>
-        <span class="apex-rec">Apex: Barber Shop</span>
-      </div>
-
-      <div class="preset-card">
-        <div class="preset-letter">N</div>
-        <div class="preset-name">Paws & Play</div>
-        <div class="preset-niche">Pet Grooming / Pet Services</div>
-        <div class="swatch-row">
-          <div class="swatch" style="background:#2A9D8F;" title="Teal"></div>
-          <div class="swatch" style="background:#E76F51;" title="Coral"></div>
-          <div class="swatch" style="background:#F8F4F0;" title="Cloud"></div>
-          <div class="swatch" style="background:#2D1B0E;" title="Deep Brown"></div>
-        </div>
-        <div class="preset-identity">High-end pet spa — luxury hospitality, but for your best friend.</div>
-        <span class="apex-rec">Apex: Pet Grooming</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Outreach -->
+  <!-- ========== SECTION 4: Stages 3-5 Outreach & Recycling ========== -->
   <div class="section" id="outreach">
-    <h2>08 — Outreach Workflow</h2>
-    <p>This section is a stub — items are populated as the workflow is tested and proven. Check the boxes as each step is confirmed working.</p>
+    <h2>Stages 3–5 · Outreach & Recycling</h2>
+    <p>Template-first mockups. Authentic DMs. Recycle dead leads after 30 days.</p>
 
-    <div class="card">
-      <div class="label">Prospecting (Gemini handles)</div>
-      <ul class="checklist">
-        <li><span class="check"></span><strong>Source leads</strong> — Google Maps scraping by niche + city. Output: business name, phone, website URL, Google review count.</li>
-        <li><span class="check"></span><strong>Filter</strong> — No website, or website scores below threshold on PageSpeed / visual quality. These are the pitch targets.</li>
-        <li><span class="check"></span><strong>Output format</strong> — Structured JSON/CSV handed off to Claude Chat for pitch copy generation.</li>
-      </ul>
+    <!-- DM script generator -->
+    <details class="collapsible" id="dm-script" open>
+      <summary>DM script generator <span class="summary-tag">Claude Chat prompt</span></summary>
+      <div class="body">
+        <div class="copy-block" style="margin-top:12px;">
+          <div class="copy-block-head">
+            <span class="copy-block-title">Prompt · DM script generator</span>
+            <button class="copy-btn" data-copy-target="#dm-script-prompt">Copy</button>
+          </div>
+          <div class="copy-body" id="dm-script-prompt">"Assume the identity of a direct-response copywriter. I am pitching a $1,200 website rebuild to, a functioning [Niche] in [City].
+I found them via Google Maps. Their current web property exhibits this specific flaw: [Insert Flaw].
+Draft a three-sentence cold direct message (DM) optimized for Instagram. Lead authentically (I found you on Google, checked your site on my phone). Point out the specific flaw causing lost revenue. Tell them I mapped out a high-converting mobile layout for [Niche] businesses and ask if they want the link. Mention that their final version would be fully customized with their branding and photos. Do not include any introductory pleasantries."</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- 7-day warmup -->
+    <details class="collapsible">
+      <summary>7-day Instagram warmup <span class="summary-tag">Before your first DM</span></summary>
+      <div class="body">
+        <p style="margin-top:10px;">Use a dedicated Instagram Business account. Engage organically with target accounts for one week before sending a single DM. Strict limit: 10–15 personalized DMs per day to avoid spam filters.</p>
+        <ul class="checklist" id="warmup-checklist">
+          <li data-warmup="0"><div class="check"></div><div><strong>Day 1</strong> <span class="hint">— dedicated IG Business account live; profile complete (logo, bio, link)</span></div></li>
+          <li data-warmup="1"><div class="check"></div><div><strong>Day 2</strong> <span class="hint">— follow 15–20 target niche accounts</span></div></li>
+          <li data-warmup="2"><div class="check"></div><div><strong>Day 3</strong> <span class="hint">— like + comment on 5 target posts (authentic, not generic)</span></div></li>
+          <li data-warmup="3"><div class="check"></div><div><strong>Day 4</strong> <span class="hint">— post 1 portfolio/work sample to your grid</span></div></li>
+          <li data-warmup="4"><div class="check"></div><div><strong>Day 5</strong> <span class="hint">— engage with 5 more accounts, watch stories</span></div></li>
+          <li data-warmup="5"><div class="check"></div><div><strong>Day 6</strong> <span class="hint">— post 1 more portfolio piece; keep engagement rhythm</span></div></li>
+          <li data-warmup="6"><div class="check"></div><div><strong>Day 7</strong> <span class="hint">— first DM wave: send 10–15 personalized messages</span></div></li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Objection handlers -->
+    <details class="collapsible" id="objections">
+      <summary>Objection handlers <span class="summary-tag">3 scenarios</span></summary>
+      <div class="body" id="objections-block">
+        <div class="copy-block" style="margin-top:12px;">
+          <div class="copy-block-head">
+            <span class="copy-block-title">Scenario A · "I already have a web guy / agency"</span>
+            <button class="copy-btn" data-copy-target="#obj-a">Copy</button>
+          </div>
+          <div class="copy-body" id="obj-a">"That's great — having someone manage the backend is important. The specific issue I noticed is that your current front-end requires mobile users to pinch and zoom to find your contact info, which kills the ROI of any marketing you're running. Here's the live link: [URL]. Worth a 10-minute chat to see the difference?"</div>
+        </div>
+        <div class="copy-block">
+          <div class="copy-block-head">
+            <span class="copy-block-title">Scenario B · "How much does this cost?"</span>
+            <button class="copy-btn" data-copy-target="#obj-b">Copy</button>
+          </div>
+          <div class="copy-body" id="obj-b">"A fully customized build runs $1,200 — one time. In my experience that's offset by the first two or three emergency jobs booked through the new mobile Call Now button. Want to see the live demo first before deciding?"</div>
+        </div>
+        <div class="copy-block">
+          <div class="copy-block-head">
+            <span class="copy-block-title">Scenario C · "I'm not interested / not right now"</span>
+            <button class="copy-btn" data-copy-target="#obj-c">Copy</button>
+          </div>
+          <div class="copy-body" id="obj-c">"No problem at all. Just so you have it — the link stays live for 30 days if you change your mind: [URL]. Good luck with the busy season."</div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Dead Lead Recycling Protocol -->
+    <details class="collapsible">
+      <summary>Dead Lead Recycling Protocol <span class="summary-tag">Day 14 · 44 · 45 · 47</span></summary>
+      <div class="body">
+        <p style="margin-top:10px;">Highly qualified leads with 20+ reviews are not discarded. Move them through the recycling timeline:</p>
+        <div class="dns-card" style="background:var(--surface-hi); border-color:var(--border); margin-top:10px;">
+          <ol>
+            <li><strong>Day 14</strong> — If no reply after 2 messages, move the lead to the "Cold" tab in the Deal Tracker.</li>
+            <li><strong>Day 44</strong> (30 days later) — Feed the lead back into Gemini to re-verify website status.</li>
+            <li><strong>Day 45</strong> — If the site remains broken, send a single, final seasonal touchpoint. <button class="copy-btn" data-copy-target="#day45-copy" style="margin-left:6px;">Copy touchpoint</button></li>
+            <li><strong>Day 47</strong> — If no reply, archive permanently.</li>
+          </ol>
+        </div>
+        <div class="copy-block" style="margin-top:12px;">
+          <div class="copy-block-head">
+            <span class="copy-block-title">Day 45 · Seasonal touchpoint</span>
+            <button class="copy-btn" data-copy-target="#day45-copy">Copy</button>
+          </div>
+          <div class="copy-body" id="day45-copy">"Heading into summer busy season — your mobile site is still sending emergency calls to competitors. Still have that mockup link if you want it."</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ========== SECTION 5: Stages 6-8 Build & Pitch ========== -->
+  <div class="section" id="build">
+    <h2>Stages 6–8 · Build & Pitch</h2>
+    <p>When a prospect replies positively, the 10-minute customization sequence kicks in.</p>
+
+    <!-- /web-mockup command -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Claude Code · Trigger full mockup build</span>
+        <button class="copy-btn" data-copy-target="#web-mockup-cmd">Copy</button>
+      </div>
+      <div class="copy-body" id="web-mockup-cmd">/web-mockup</div>
     </div>
 
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Pitch (Claude Chat handles)</div>
-      <ul class="checklist">
-        <li><span class="check"></span><strong>Cold outreach message</strong> — Personalized to the business (name, niche, specific pain). Short: 3 sentences max. CTA: "I built something — mind if I send it over?"</li>
-        <li><span class="check"></span><strong>Follow-up sequence</strong> — Day 3 bump if no reply. Day 7 final. No more than 3 touches.</li>
-        <li><span class="check"></span><strong>Pitch meeting talking points</strong> — Pre-built by Claude Chat from business context before the call.</li>
-      </ul>
+    <!-- Customize command -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Claude Code · Customize template (10-minute sequence)</span>
+        <button class="copy-btn" data-copy-target="#customize-cmd">Copy</button>
+      </div>
+      <div class="copy-body" id="customize-cmd">claude -p "Update this codebase for. Change the primary brand color to [Color]. Update the H1 hero copy to specifically mention their service in [City]. Replace the generic logo placeholder with plain text of their name."</div>
     </div>
 
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Close (David + Claude Chat)</div>
-      <ul class="checklist">
-        <li><span class="check"></span><strong>Objection handlers</strong> — "too expensive", "already have someone", "not right now" — Claude Chat writes the responses, David delivers.</li>
-        <li><span class="check"></span><strong>Invoice</strong> — Sent via [platform TBD]. 50% upfront, 50% on delivery.</li>
-      </ul>
+    <!-- Vercel deploy sequence -->
+    <div class="copy-block">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Git + Vercel · Deploy customized mockup</span>
+        <button class="copy-btn" data-copy-target="#deploy-cmd">Copy</button>
+      </div>
+      <div class="copy-body" id="deploy-cmd">cd C:\temp\[slug]
+git add -A
+git commit -m "Customize for [client]"
+git push
+
+# Vercel auto-deploys on push. Grab the production URL for the pitch.</div>
+    </div>
+
+    <!-- 3-phase pitch meeting -->
+    <h3 style="margin-top: 26px; font-size: 14px;">Pitch meeting · 15-minute time box</h3>
+    <p style="margin-bottom:10px;">No written PDF proposal. The live Vercel mockup is the proposal.</p>
+    <div class="pitch-grid">
+      <div class="pitch-phase">
+        <div class="phase-num">PHASE 01</div>
+        <div class="phase-time">Minutes 1–4</div>
+        <h3>Discovery</h3>
+        <p>Isolate the prospect's primary pain point regarding lead capture.</p>
+      </div>
+      <div class="pitch-phase">
+        <div class="phase-num">PHASE 02</div>
+        <div class="phase-time">Minutes 5–12</div>
+        <h3>The Live Artifact Reveal</h3>
+        <p>Share the screen and contrast their current broken mobile site with the live Vercel deployment. Focus entirely on the sticky "Call Now" button and reduced friction.</p>
+      </div>
+      <div class="pitch-phase">
+        <div class="phase-num">PHASE 03</div>
+        <div class="phase-time">Minutes 13–15</div>
+        <h3>The Offer & Close</h3>
+        <p style="margin-bottom:10px;">Deliver the close verbatim:</p>
+        <button class="copy-btn" data-copy-target="#close-script">Copy close script</button>
+        <div style="display:none;" id="close-script">"I will finalize this architecture and deploy it live on your primary domain by next Friday. The total capital requirement is $1,200. I require a 50% initial deposit today to commence, with the remaining 50% due upon final approval. Does this timeline align?"</div>
+      </div>
+    </div>
+
+    <div class="copy-block" style="margin-top: 16px;">
+      <div class="copy-block-head">
+        <span class="copy-block-title">Close script · Phase 3</span>
+        <button class="copy-btn" data-copy-target="#close-script-visible">Copy</button>
+      </div>
+      <div class="copy-body" id="close-script-visible">"I will finalize this architecture and deploy it live on your primary domain by next Friday. The total capital requirement is $1,200. I require a 50% initial deposit today to commence, with the remaining 50% due upon final approval. Does this timeline align?"</div>
     </div>
   </div>
 
-  <!-- Versioning -->
-  <div class="section" id="versioning">
-    <h2>09 — Versioning Protocol</h2>
+  <!-- ========== SECTION 6: Stages 9-10 Closing & Admin ========== -->
+  <div class="section" id="close">
+    <h2>Stages 9–10 · Closing & Admin</h2>
+    <p>Invoice, kickoff, DNS delegation, retainer upsell.</p>
+
+    <!-- Apps Script invoice generator -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="label">Automated Invoice Engineering · Zero-Cost Stack</div>
+      <h3>Google Workspace Stack</h3>
+      <p><strong>Master Template (Google Docs):</strong> A branded invoice template utilizing placeholders (e.g., <code style="color:var(--amber); font-family:var(--mono); font-size:12px;">{{client_name}}</code>, <code style="color:var(--amber); font-family:var(--mono); font-size:12px;">{{amount}}</code>). A Stripe or PayPal.Me payment link is permanently embedded.</p>
+      <p><strong>Central Database (Google Sheets):</strong> The "Apex Deal Tracker".</p>
+      <p><strong>Automation Engine (Google Apps Script):</strong> A script attached to the Sheet that duplicates the Doc, injects the data, converts it to a PDF, and emails it directly to the client via Gmail.</p>
+
+      <div class="copy-block" style="margin-top:14px;">
+        <div class="copy-block-head">
+          <span class="copy-block-title">Apps Script · Invoice generator (template)</span>
+          <button class="copy-btn" data-copy-target="#invoice-script">Copy</button>
+        </div>
+        <pre style="margin:0; border:none; border-radius:0;"><code id="invoice-script">function generateInvoice() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const row = sheet.getActiveRange().getRow();
+  const data = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getValues()[0];
+
+  // Column mapping — adjust to match your Apex Deal Tracker schema
+  const [clientName, email, amount, projectName, dueDate] = data;
+
+  // Duplicate the master invoice template
+  const TEMPLATE_DOC_ID = 'PASTE_DOC_TEMPLATE_ID_HERE';
+  const INVOICE_FOLDER_ID = 'PASTE_FOLDER_ID_HERE';
+
+  const template = DriveApp.getFileById(TEMPLATE_DOC_ID);
+  const folder = DriveApp.getFolderById(INVOICE_FOLDER_ID);
+  const copy = template.makeCopy(`Invoice — ${clientName} — ${projectName}`, folder);
+
+  // Inject placeholders
+  const doc = DocumentApp.openById(copy.getId());
+  const body = doc.getBody();
+  body.replaceText('{{client_name}}', clientName);
+  body.replaceText('{{amount}}', `$${amount}`);
+  body.replaceText('{{project_name}}', projectName);
+  body.replaceText('{{due_date}}', dueDate);
+  body.replaceText('{{invoice_date}}', new Date().toLocaleDateString());
+  doc.saveAndClose();
+
+  // Convert to PDF and email via Gmail
+  const pdf = copy.getAs('application/pdf').setName(`Invoice — ${clientName}.pdf`);
+  GmailApp.sendEmail(email, `Invoice — ${projectName}`, `Hi ${clientName},\n\nAttached is your invoice for ${projectName}. Payment link is embedded in the PDF.\n\n— David, Apex Digital`, {
+    attachments: [pdf],
+    name: 'Apex Digital'
+  });
+
+  SpreadsheetApp.getUi().alert(`Invoice sent to ${email}`);
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Kickoff Google Form -->
     <div class="card">
-      <div class="label">How to Update This SOP</div>
-      <table>
-        <thead><tr><th>Type of Change</th><th>Version Bump</th><th>Who Triggers</th></tr></thead>
-        <tbody>
-          <tr><td>New gotcha discovered</td><td>Patch (v2.0 → v2.1)</td><td>Claude Code after any build</td></tr>
-          <tr><td>New preset added</td><td>Minor (v2.0 → v2.1)</td><td>David decision</td></tr>
-          <tr><td>Workflow restructure</td><td>Major (v2.0 → v3.0)</td><td>David + Chat joint session</td></tr>
-          <tr><td>New niche / pricing tier</td><td>Minor</td><td>David decision</td></tr>
-          <tr><td>Outreach stub filled in</td><td>Patch</td><td>Claude Chat after testing</td></tr>
-        </tbody>
-      </table>
+      <div class="label">Asynchronous Kickoff</div>
+      <h3>Google Form · Upon 50% deposit received</h3>
+      <p>The Kickoff Form requests: <strong>high-resolution vector logos</strong> · <strong>5–10 authentic on-site photographs</strong> · <strong>Delegate Access for DNS routing</strong> · <strong>Google Business Profile URL</strong>.</p>
+      <div class="form-url-group">
+        <input type="url" id="kickoff-form-url" placeholder="Paste your Google Form URL here" />
+        <button class="copy-btn" id="save-form-url" type="button">Save</button>
+      </div>
+      <div id="kickoff-link-wrap" style="display:none;">
+        <a id="kickoff-form-link" href="#" target="_blank" rel="noopener" class="form-url-link">Open kickoff form →</a>
+      </div>
     </div>
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Update Steps</div>
-      <ol style="padding-left: 20px; color: var(--text-dim); font-size: 13px; line-height: 2;">
-        <li>Edit <code>C:\Users\DavidsPc\Desktop\Apex Digital\Claude Workflow SOP.html</code> directly.</li>
-        <li>Bump version number in <code>&lt;title&gt;</code>, the <code>.version-tag</code> div, and the sync banner.</li>
-        <li>Commit and push to GitHub (repo TBD — set up on first deploy).</li>
-        <li>Vercel auto-deploys from main branch — live URL updates automatically.</li>
-        <li>Update <code>MEMORY.md</code> if any workflow-level facts changed.</li>
-      </ol>
+
+    <!-- DNS Delegation -->
+    <div style="margin-top:16px;">
+      <div class="label">DNS Delegation · By registrar</div>
+      <h3 style="margin-bottom:12px;">Client grants access so you can route their domain to Vercel — without ever handling their password.</h3>
+      <div class="card-grid-3">
+        <div class="dns-card">
+          <h3>GoDaddy</h3>
+          <ol>
+            <li>Log in</li>
+            <li>Top-right account menu → Delegate Access</li>
+            <li>Invite to Access</li>
+            <li>Enter david@apexdigital.com</li>
+            <li>Select "Products" permission level</li>
+            <li>Save</li>
+          </ol>
+        </div>
+        <div class="dns-card">
+          <h3>Namecheap</h3>
+          <ol>
+            <li>Log in</li>
+            <li>Profile → Manage Users</li>
+            <li>Add User</li>
+            <li>Enter email</li>
+            <li>Set role to "Manager"</li>
+            <li>Confirm invitation</li>
+          </ol>
+        </div>
+        <div class="dns-card">
+          <h3>Google Domains (Squarespace)</h3>
+          <ol>
+            <li>Log in</li>
+            <li>Select domain</li>
+            <li>Registration settings → Domain permissions</li>
+            <li>Add user</li>
+            <li>Enter email; role: Editor</li>
+            <li>Send invite</li>
+          </ol>
+        </div>
+        <div class="dns-card">
+          <h3>Cloudflare</h3>
+          <ol>
+            <li>Log in</li>
+            <li>Account homepage → Manage Account</li>
+            <li>Members → Invite Member</li>
+            <li>Enter email</li>
+            <li>Role: Administrator</li>
+            <li>Send invite</li>
+          </ol>
+        </div>
+      </div>
     </div>
-    <div class="card" style="margin-top: 16px;">
-      <div class="label">Current Status</div>
-      <p><span class="dot dot-amber"></span><strong>Vercel deploy pending.</strong> Once deployed, add the live URL to the sync banner at the top of this file and update <code>MEMORY.md</code> with the URL.</p>
-      <p><span class="dot dot-green"></span><strong>Daniel's Master Landscaping mockup</strong> — built and visually verified. Deployment to Vercel pending.</p>
+
+    <!-- Retainer pitch -->
+    <div style="margin-top:24px;">
+      <div class="label">Recurring Revenue · Retainer Pitch</div>
+      <h3 style="margin-bottom:12px;">Pitched on delivery of the final site</h3>
+
+      <div class="copy-block">
+        <div class="copy-block-head">
+          <span class="copy-block-title">Option A · $150/mo · Local Search Ecosystem</span>
+          <button class="copy-btn" data-copy-target="#retainer-a">Copy</button>
+        </div>
+        <div class="copy-body" id="retainer-a">"For $150 per month, my agency takes full control of your Google Business Profile. We ensure absolute NAP consistency across directories and manage weekly optimized photo uploads to keep you ranking in the Google Maps pack."</div>
+      </div>
+
+      <div class="copy-block">
+        <div class="copy-block-head">
+          <span class="copy-block-title">Option B · $250/mo · AI Missed-Call Receptionist</span>
+          <button class="copy-btn" data-copy-target="#retainer-b">Copy</button>
+        </div>
+        <div class="copy-body" id="retainer-b">"When you miss a call on a job site, that lead goes to your competitor. I will implement an AI agent that instantly answers or texts any missed caller, booking them directly onto your calendar. It costs $250/month and pays for itself if it saves one job a quarter."</div>
+      </div>
     </div>
   </div>
 
 </div>
 
 <footer>
-  <span class="brand">APEX DIGITAL</span>
-  <span class="meta"><span class="dot dot-green"></span>SOP v2.0 — 2026-04-17 — David Perez</span>
-  <span class="meta">Claude Code · Claude Chat · Claude Cowork · Gemini Pro</span>
+  <div class="brand">APEX DIGITAL · COMMAND CENTER</div>
+  <div class="meta">v3.0 — 2026-04-21 · <a href="/sop/">Reference SOP</a> · <a href="https://apex-digital-sop.vercel.app/">apex-digital-sop.vercel.app</a></div>
 </footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  // ---------- Utilities ----------
+  const LS_SESSION = 'apex.session.today';
+  const LS_BUDGET = 'apex.timebudget.weekly';
+  const LS_KICKOFF = 'apex.forms.kickoff';
+  const LS_SHEET = 'apex.sheet.embedUrl';
+  const LS_WARMUP = 'apex.warmup.checklist';
+
+  function todayISO() {
+    const d = new Date();
+    return d.toISOString().slice(0, 10);
+  }
+  function weekKey() {
+    const d = new Date();
+    const target = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = (target.getUTCDay() + 6) % 7; // Mon=0
+    target.setUTCDate(target.getUTCDate() - dayNum + 3);
+    const firstThursday = new Date(Date.UTC(target.getUTCFullYear(), 0, 4));
+    const diff = (target - firstThursday) / 86400000;
+    const week = 1 + Math.floor(diff / 7);
+    return `${target.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
+  }
+  function weekRangeLabel() {
+    const d = new Date();
+    const dayNum = (d.getDay() + 6) % 7;
+    const mon = new Date(d);
+    mon.setDate(d.getDate() - dayNum);
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    const fmt = (dt) => dt.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    return `${fmt(mon)} – ${fmt(sun)}`;
+  }
+  function haptic() {
+    try { navigator.vibrate?.(10); } catch (e) {}
+  }
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  // ---------- Copy-to-clipboard ----------
+  async function copyText(text, btn, sourceEl) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+    haptic();
+    toast('Copied to clipboard');
+    if (btn) {
+      const prev = btn.textContent;
+      btn.classList.add('flash');
+      btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.classList.remove('flash'); btn.textContent = prev; }, 900);
+    }
+    if (sourceEl) {
+      sourceEl.classList.add('flash');
+      setTimeout(() => sourceEl.classList.remove('flash'), 600);
+    }
+  }
+
+  function resolveCopyText(btn) {
+    if (btn.dataset.copyTarget) {
+      const el = document.querySelector(btn.dataset.copyTarget);
+      if (el) return { text: el.textContent.trim(), source: el };
+    }
+    if (btn.dataset.copyId) {
+      const el = document.getElementById(btn.dataset.copyId);
+      if (el) return { text: el.textContent.trim(), source: el };
+    }
+    return { text: '', source: null };
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    if (btn.id === 'save-form-url') return; // handled separately
+    const { text, source } = resolveCopyText(btn);
+    if (!text) { toast('Nothing to copy'); return; }
+    copyText(text, btn, source);
+  });
+
+  // ---------- Session Start ----------
+  const hero = document.getElementById('session-hero');
+  const startBtn = document.getElementById('start-btn');
+  const startLabel = startBtn.querySelector('.btn-label');
+
+  function setHeroOpen(open, persist = false) {
+    hero.classList.toggle('open', open);
+    startLabel.textContent = open ? 'Close Today\'s Session' : 'Start Today\'s Session';
+  }
+
+  startBtn.addEventListener('click', () => {
+    haptic();
+    setHeroOpen(!hero.classList.contains('open'));
+  });
+
+  // Load + persist daily checklist
+  function loadSession() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_SESSION) || 'null');
+      if (raw && raw.date === todayISO() && Array.isArray(raw.steps)) {
+        raw.steps.forEach((v, i) => {
+          const el = document.querySelector(`.step[data-step="${i}"]`);
+          if (el && v) { el.classList.add('done'); el.querySelector('.step-check').setAttribute('aria-checked', 'true'); }
+        });
+        if (raw.opened) setHeroOpen(true);
+      } else {
+        localStorage.removeItem(LS_SESSION);
+      }
+    } catch (e) { localStorage.removeItem(LS_SESSION); }
+  }
+  function saveSession() {
+    const steps = [0,1,2].map(i => document.querySelector(`.step[data-step="${i}"]`).classList.contains('done'));
+    localStorage.setItem(LS_SESSION, JSON.stringify({ date: todayISO(), steps, opened: hero.classList.contains('open') }));
+  }
+
+  document.querySelectorAll('.step').forEach(step => {
+    const check = step.querySelector('.step-check');
+    const toggle = () => {
+      step.classList.toggle('done');
+      check.setAttribute('aria-checked', step.classList.contains('done') ? 'true' : 'false');
+      haptic();
+      saveSession();
+    };
+    check.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+    check.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  startBtn.addEventListener('click', saveSession);
+
+  // ---------- Qualification checklist (session-only) ----------
+  document.querySelectorAll('#qual-checklist li, #warmup-checklist li').forEach(li => {
+    li.addEventListener('click', () => {
+      li.classList.toggle('checked');
+      haptic();
+      if (li.parentElement.id === 'warmup-checklist') saveWarmup();
+    });
+  });
+
+  function loadWarmup() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_WARMUP) || 'null');
+      if (!raw) return;
+      (raw.days || []).forEach((v, i) => {
+        if (!v) return;
+        const el = document.querySelector(`#warmup-checklist li[data-warmup="${i}"]`);
+        if (el) el.classList.add('checked');
+      });
+    } catch (e) {}
+  }
+  function saveWarmup() {
+    const days = Array.from(document.querySelectorAll('#warmup-checklist li')).map(li => li.classList.contains('checked'));
+    localStorage.setItem(LS_WARMUP, JSON.stringify({ days }));
+  }
+
+  // ---------- Time budget ----------
+  const budgetInput = document.getElementById('budget-input');
+  const budgetCurrent = document.getElementById('budget-current');
+  const budgetBar = document.getElementById('budget-bar');
+  const budgetDisplay = document.getElementById('budget-display');
+  const budgetWeekLabel = document.getElementById('budget-week-label');
+  const BUDGET_CAP = 5.0;
+
+  function renderBudget(hours) {
+    hours = Math.max(0, Number(hours) || 0);
+    budgetCurrent.textContent = hours.toFixed(1);
+    const pct = Math.min(100, (hours / BUDGET_CAP) * 100);
+    budgetBar.style.width = pct + '%';
+    const over = hours > BUDGET_CAP;
+    budgetBar.classList.toggle('over', over);
+    budgetDisplay.classList.toggle('over', over);
+  }
+  function loadBudget() {
+    budgetWeekLabel.textContent = weekRangeLabel();
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_BUDGET) || 'null');
+      if (raw && raw.week === weekKey()) {
+        budgetInput.value = raw.hours;
+        renderBudget(raw.hours);
+      } else {
+        localStorage.removeItem(LS_BUDGET);
+        budgetInput.value = '';
+        renderBudget(0);
+      }
+    } catch (e) { renderBudget(0); }
+  }
+  function saveBudget() {
+    const hours = Number(budgetInput.value) || 0;
+    localStorage.setItem(LS_BUDGET, JSON.stringify({ week: weekKey(), hours }));
+    renderBudget(hours);
+  }
+  budgetInput.addEventListener('input', saveBudget);
+
+  // ---------- Sheet embed ----------
+  const sheetInput = document.getElementById('sheet-url-input');
+  const sheetWrap = document.getElementById('sheet-frame-wrap');
+  const sheetPlaceholder = document.getElementById('sheet-placeholder');
+
+  function renderSheet(url) {
+    if (!url) {
+      sheetWrap.querySelectorAll('iframe').forEach(f => f.remove());
+      sheetPlaceholder.style.display = '';
+      return;
+    }
+    sheetWrap.querySelectorAll('iframe').forEach(f => f.remove());
+    sheetPlaceholder.style.display = 'none';
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.loading = 'lazy';
+    iframe.setAttribute('allowfullscreen', '');
+    sheetWrap.appendChild(iframe);
+  }
+  function loadSheet() {
+    const url = localStorage.getItem(LS_SHEET);
+    if (url) { sheetInput.value = url; renderSheet(url); }
+  }
+  sheetInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const url = sheetInput.value.trim();
+      if (!url) return;
+      if (!/^https?:\/\//.test(url)) { toast('URL must start with https://'); return; }
+      localStorage.setItem(LS_SHEET, url);
+      renderSheet(url);
+      toast('Sheet embedded');
+    }
+  });
+
+  // ---------- Kickoff form URL ----------
+  const formInput = document.getElementById('kickoff-form-url');
+  const formSave = document.getElementById('save-form-url');
+  const formLink = document.getElementById('kickoff-form-link');
+  const formLinkWrap = document.getElementById('kickoff-link-wrap');
+
+  function renderKickoff(url) {
+    if (url) {
+      formLink.href = url;
+      formLinkWrap.style.display = '';
+    } else {
+      formLinkWrap.style.display = 'none';
+    }
+  }
+  function loadKickoff() {
+    const url = localStorage.getItem(LS_KICKOFF);
+    if (url) { formInput.value = url; renderKickoff(url); }
+  }
+  formSave.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = formInput.value.trim();
+    if (!url) { localStorage.removeItem(LS_KICKOFF); renderKickoff(''); toast('Form URL cleared'); return; }
+    if (!/^https?:\/\//.test(url)) { toast('URL must start with https://'); formInput.focus(); return; }
+    localStorage.setItem(LS_KICKOFF, url);
+    renderKickoff(url);
+    toast('Kickoff URL saved');
+    haptic();
+  });
+
+  // ---------- Init ----------
+  loadSession();
+  loadBudget();
+  loadSheet();
+  loadKickoff();
+  loadWarmup();
+</script>
 
 </body>
 </html>
